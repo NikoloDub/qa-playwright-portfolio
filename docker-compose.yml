@@ -1,0 +1,21 @@
+services:
+  api:
+    build:
+      context: ./apps/api
+      dockerfile: Dockerfile
+    container_name: qa-shop-api
+    ports:
+      - '3001:3001'
+    restart: unless-stopped
+
+  web:
+    build:
+      context: ./apps/web
+      dockerfile: Dockerfile
+    container_name: qa-shop-web
+    ports:
+      - '5173:80'
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped
